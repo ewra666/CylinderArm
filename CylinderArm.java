@@ -48,6 +48,7 @@ import javax.vecmath.Vector3d;
  */public class CylinderArm extends JFrame implements KeyListener{
     private ColoringAttributes WHITE;
     private Matrix4d matrix = new Matrix4d();
+    float x1 , x2 , y1 , y2 , z1 , z2;
   
         
         CylinderArm(){
@@ -97,12 +98,27 @@ import javax.vecmath.Vector3d;
         
             Appearance  wygladRamie = new Appearance();
             wygladRamie.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
-            Cylinder ramie = new Cylinder(0.1f, 0.5f,Cylinder.GENERATE_TEXTURE_COORDS , wygladRamie);
+            Cylinder ramie = new Cylinder(0.03f, 0.5f,Cylinder.GENERATE_TEXTURE_COORDS , wygladRamie);
+            Appearance  wygladNiechwytak = new Appearance();
+            wygladNiechwytak.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
+            Cylinder niechwytak = new Cylinder(0.1f, 0.25f,Cylinder.GENERATE_TEXTURE_COORDS , wygladRamie);
            
-          
+          //==============================
+            
+            x1=0;
+            x2=0;
+            y1=0;
+            y2=0;
+            z1=0;
+            z2=0;
+            
+            
+            
             //==============================
             final Transform3D  p_ramie   = new Transform3D();
-            p_ramie.set(new Vector3f(0.0f,0.0f,0.0f));
+            p_ramie.set(new Vector3f(-0.25f,0.0f,0.0f));
+            final Transform3D  p_niechwytak   = new Transform3D();
+            p_niechwytak.set(new Vector3f(0.0f,0.0f,0.0f));
             
             final Transform3D tmp_rot = new Transform3D();
             
@@ -140,14 +156,14 @@ public void keyPressed(KeyEvent e)
         if (key == 's')
        {
            
-          
+          x1-=0.01f;
             
           
            
-            p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+           // p_ramie.get(matrix);
+            //p_ramie.setTranslation(new Vector3d(0.25f,0.0f,0.0f));
           
-            p_ramie.setTranslation(new Vector3d(matrix.m03-0.01f,matrix.m13,matrix.m23));
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
               obrot_animacja.setTransform(p_ramie);
             
         }
@@ -156,11 +172,11 @@ public void keyPressed(KeyEvent e)
            
           
             
+           x1+=0.01f;
+            //p_ramie.get(matrix);
+            //p_ramie.setTranslation(new Vector3d(0.25f,0.0f,0.0f));
            
-            p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
-           
-            p_ramie.setTranslation(new Vector3d(matrix.m03+0.01f,matrix.m13,matrix.m23));
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
             obrot_animacja.setTransform(p_ramie);
         }
        
@@ -168,36 +184,58 @@ public void keyPressed(KeyEvent e)
        {
            
           
-            
-             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+            y1+=0.01f;
+             //p_ramie.get(matrix);
+            //p_ramie.setTranslation(new Vector3d(0.25f,0.0f,0.0f));
            
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13+0.01f,matrix.m23));
-            obrot_animacja.setTransform(p_ramie);
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
+            obrot_animacja.setTransform(p_ramie);}
+             if (key == 'e')
+       {
+             //p_niechwytak.get(matrix);
+            //p_niechwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+           y2+=0.01f;
+            p_niechwytak.setTranslation(new Vector3d(x2,y2,z2));
+            obrot_animacja3.setTransform(p_niechwytak);
         }
          if (key == 'd')
          {
            
           
             
+           y1-=0.01f;
+           //p_ramie.get(matrix);
+            //p_ramie.setTranslation(new Vector3d(0.25f,0.0f,0.0f));
            
-           p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
+            obrot_animacja.setTransform(p_ramie);}
+         if (key == 'd')
+         {
+            y2-=0.01f;
+             
+            // p_niechwytak.get(matrix);
+            //p_niechwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
            
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13-0.01f,matrix.m23));
-            obrot_animacja.setTransform(p_ramie);
+            p_niechwytak.setTranslation(new Vector3d(x2,y2,z2));
+            obrot_animacja3.setTransform(p_niechwytak);
         }
          if (key == 'w')
         {
-           
-          
-            
+          //p_ramie.setTranslation(new Vector3d(x1,0,0));
             tmp_rot.rotY(-Math.PI/16);
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+            
             p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
-            obrot_animacja.setTransform(p_ramie);
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
+            obrot_animacja.setTransform(p_ramie);}
+           if (key == 'w')
+        {
+             tmp_rot3.rotY(-Math.PI/16);
+            p_niechwytak.get(matrix);
+            p_niechwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+            p_niechwytak.mul(tmp_rot3);
+            p_niechwytak.setTranslation(new Vector3d(x2,y2,z2));
+            obrot_animacja3.setTransform(p_niechwytak);
         }
          if (key == 'r')
         {
@@ -206,11 +244,21 @@ public void keyPressed(KeyEvent e)
             
             tmp_rot.rotY(Math.PI/16);
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
             p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
-            
+            p_ramie.setTranslation(new Vector3d(x1,y1,z1));
             obrot_animacja.setTransform(p_ramie);
+        }
+          if (key == 'r')
+        {
+             tmp_rot3.rotY(Math.PI/16);
+             p_niechwytak.get(matrix);
+            p_niechwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+            p_niechwytak.mul(tmp_rot3);
+            p_niechwytak.setTranslation(new Vector3d(x2,y2,z2));
+            obrot_animacja3.setTransform(p_niechwytak);
+            
+            
         }
         
     }
@@ -219,16 +267,32 @@ public void keyPressed(KeyEvent e)
             );
                    
             //p_ramie.mul(tmp_rot);
-            p_ramie.set(new Vector3d(0.25f,0.15f,0.0f));
+            p_ramie.set(new Vector3d(0.0f,0.0f,0.0f));
+            p_niechwytak.set(new Vector3d(0.0f,0.0f,0.0f));
              tmp_rot.rotZ(Math.PI/2);
+             tmp_rot3.rotZ(Math.PI/2);
            
            p_ramie.mul(tmp_rot);
+            p_niechwytak.mul(tmp_rot3);
+            
+             
+             TransformGroup transformacja_niechwytak = new TransformGroup(p_niechwytak);
+              TransformGroup transformacja_ramienia = new TransformGroup(p_ramie);
+            transformacja_ramienia.addChild(ramie);
+             transformacja_niechwytak.addChild(niechwytak);
+            obrot_animacja.addChild(transformacja_ramienia);
+             obrot_animacja3.addChild(transformacja_niechwytak);
+             
+             
+           
+           
             
              
              
-              TransformGroup transformacja_ramienia = new TransformGroup(p_ramie);
-            transformacja_ramienia.addChild(ramie);
-            obrot_animacja.addChild(transformacja_ramienia);
+              
+           
+           
+            
             
            
            //=================================
@@ -260,6 +324,7 @@ public void keyPressed(KeyEvent e)
        //p_ramie.set(new Vector3d(0.0f,0.0f,0.0f));
               tmp_rot.rotZ(Math.PI/2);
            p_ramie.mul(tmp_rot);
+            p_niechwytak.mul(tmp_rot);
             
             return wezel_scena;
         }
