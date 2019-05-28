@@ -5,6 +5,7 @@
  */
 package cylinderarm;
 import com.sun.j3d.utils.geometry.*;
+import com.sun.j3d.utils.image.TextureLoader;
 import javax.media.j3d.*;
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +72,14 @@ import javax.vecmath.Vector3d;
         BranchGroup wezel_scena = new BranchGroup();
             
             //==============================
+        BoundingSphere Wiezy = new BoundingSphere();
+        AmbientLight Swiatlo = new AmbientLight();
+        Swiatlo.setInfluencingBounds(Wiezy);
+        wezel_scena.addChild(Swiatlo);
         
+        
+        
+         //==============================
         
         final TransformGroup obrot_animacja = new TransformGroup();
         obrot_animacja.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -83,9 +91,9 @@ import javax.vecmath.Vector3d;
         
             Appearance  wygladRamie = new Appearance();
             wygladRamie.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
-            Cylinder ramie = new Cylinder(0.1f, 0.5f, wygladRamie);
+            Cylinder ramie = new Cylinder(0.1f, 0.5f,Cylinder.GENERATE_TEXTURE_COORDS , wygladRamie);
            
-           
+          
             //==============================
             final Transform3D  p_ramie   = new Transform3D();
             p_ramie.set(new Vector3f(0.0f,0.0f,0.0f));
@@ -96,7 +104,8 @@ import javax.vecmath.Vector3d;
             final Transform3D  p_stozek   = new Transform3D();
             p_stozek.set(new Vector3f(0.0f,0.0f,0.0f));
             final Transform3D tmp_rot2 = new Transform3D();
-            
+            //============================
+            final Transform3D  p_stozka   = new Transform3D();
             //============================
             this.addKeyListener(new KeyListener(){
      
@@ -119,35 +128,36 @@ public void keyPressed(KeyEvent e)
            
           
             
-            tmp_rot.rotZ(Math.PI/16);
+            
             p_ramie.get(matrix);
             p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
-            p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
+            
+            p_ramie.setTranslation(new Vector3d(matrix.m03-0.01f,matrix.m13,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
+            
         }
         if (key == 'f')
        {
            
           
             
-            tmp_rot.rotZ(-Math.PI/16);
+           
             p_ramie.get(matrix);
             p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
-            p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
+           
+            p_ramie.setTranslation(new Vector3d(matrix.m03+0.01f,matrix.m13,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
         }
-         if (key == 'e')
+       
+        if (key == 'e')
        {
            
           
             
-            tmp_rot.rotX(-Math.PI/16);
-            p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
-            p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
+             p_ramie.get(matrix);
+            p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
+           
+            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13+0.01f,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
         }
          if (key == 'd')
@@ -155,11 +165,11 @@ public void keyPressed(KeyEvent e)
            
           
             
-            tmp_rot.rotX(Math.PI/16);
-            p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
-            p_ramie.mul(tmp_rot);
-            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
+           
+           p_ramie.get(matrix);
+            p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
+           
+            p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13-0.01f,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
         }
          if (key == 'w')
@@ -191,7 +201,7 @@ public void keyPressed(KeyEvent e)
             }
             );
                    
-            p_ramie.mul(tmp_rot);
+            //p_ramie.mul(tmp_rot);
             
               TransformGroup transformacja_s = new TransformGroup(p_ramie);
             transformacja_s.addChild(ramie);
@@ -200,12 +210,19 @@ public void keyPressed(KeyEvent e)
            
            //=================================
            Appearance  wygladStozka = new Appearance();
-      wygladStozka.setColoringAttributes(new ColoringAttributes(0.2f,0.9f,0.2f,ColoringAttributes.NICEST));
+           
+           //====================
+           //Texture Teksturatrawnik = new TextureLoader("obrazki/trawka.gif", this).getTexture();
+           // wygladStozka.setTexture(Teksturatrawnik);
+           
+           
+           
+      wygladStozka.setColoringAttributes(new ColoringAttributes(0.2f,0.9f,0.6f,ColoringAttributes.NICEST));
 
       Cylinder stozek = new Cylinder(0.1f,0.5f, wygladStozka);
 
-      Transform3D  p_stozka   = new Transform3D();
-      p_stozka.set(new Vector3f(0.25f,0.3f,0.0f));
+      
+      p_stozka.set(new Vector3f(0.25f,0.15f,0.0f));
 
       tmp_rot.rotZ(Math.PI/2);
 
