@@ -82,8 +82,14 @@ import javax.vecmath.Vector3d;
          //==============================
         
         final TransformGroup obrot_animacja = new TransformGroup();
+         final TransformGroup obrot_animacja2 = new TransformGroup();
+         final TransformGroup obrot_animacja3 = new TransformGroup();
         obrot_animacja.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        wezel_scena.addChild(obrot_animacja);   
+        obrot_animacja2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        obrot_animacja3.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        wezel_scena.addChild(obrot_animacja);  
+        wezel_scena.addChild(obrot_animacja2);  
+         wezel_scena.addChild(obrot_animacja3);  
         
         
 
@@ -104,8 +110,15 @@ import javax.vecmath.Vector3d;
             final Transform3D  p_stozek   = new Transform3D();
             p_stozek.set(new Vector3f(0.0f,0.0f,0.0f));
             final Transform3D tmp_rot2 = new Transform3D();
+             final Transform3D tmp_rot3 = new Transform3D();
             //============================
             final Transform3D  p_stozka   = new Transform3D();
+            //============================
+            
+           
+           // p_ramie.setTranslation(new Vector3d(0.25f,0.0f,0.0f));
+           // p_ramie.mul(tmp_rot3);
+            //obrot_animacja.setTransform(p_ramie);
             //============================
             this.addKeyListener(new KeyListener(){
      
@@ -123,17 +136,19 @@ public void keyPressed(KeyEvent e)
     public void keyTyped(KeyEvent e)
     {
         char key = e.getKeyChar();
+        
         if (key == 's')
        {
            
           
             
-            
+          
+           
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
-            
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
+          
             p_ramie.setTranslation(new Vector3d(matrix.m03-0.01f,matrix.m13,matrix.m23));
-            obrot_animacja.setTransform(p_ramie);
+              obrot_animacja.setTransform(p_ramie);
             
         }
         if (key == 'f')
@@ -143,7 +158,7 @@ public void keyPressed(KeyEvent e)
             
            
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
            
             p_ramie.setTranslation(new Vector3d(matrix.m03+0.01f,matrix.m13,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
@@ -155,7 +170,7 @@ public void keyPressed(KeyEvent e)
           
             
              p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
            
             p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13+0.01f,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
@@ -167,7 +182,7 @@ public void keyPressed(KeyEvent e)
             
            
            p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0,0.0));
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
            
             p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13-0.01f,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
@@ -179,7 +194,7 @@ public void keyPressed(KeyEvent e)
             
             tmp_rot.rotY(-Math.PI/16);
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
             p_ramie.mul(tmp_rot);
             p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
             obrot_animacja.setTransform(p_ramie);
@@ -191,21 +206,29 @@ public void keyPressed(KeyEvent e)
             
             tmp_rot.rotY(Math.PI/16);
             p_ramie.get(matrix);
-            p_ramie.setTranslation(new Vector3d(0.0f,0.0f,0.0));
+            p_ramie.setTranslation(new Vector3d(0.25f,0.15f,0.0f));
             p_ramie.mul(tmp_rot);
             p_ramie.setTranslation(new Vector3d(matrix.m03,matrix.m13,matrix.m23));
+            
             obrot_animacja.setTransform(p_ramie);
         }
+        
     }
      
             }
             );
                    
             //p_ramie.mul(tmp_rot);
+            p_ramie.set(new Vector3d(0.25f,0.15f,0.0f));
+             tmp_rot.rotZ(Math.PI/2);
+           
+           p_ramie.mul(tmp_rot);
             
-              TransformGroup transformacja_s = new TransformGroup(p_ramie);
-            transformacja_s.addChild(ramie);
-            obrot_animacja.addChild(transformacja_s);
+             
+             
+              TransformGroup transformacja_ramienia = new TransformGroup(p_ramie);
+            transformacja_ramienia.addChild(ramie);
+            obrot_animacja.addChild(transformacja_ramienia);
             
            
            //=================================
@@ -222,19 +245,21 @@ public void keyPressed(KeyEvent e)
       Cylinder stozek = new Cylinder(0.1f,0.5f, wygladStozka);
 
       
-      p_stozka.set(new Vector3f(0.25f,0.15f,0.0f));
+      p_stozka.set(new Vector3f(0.0f,0.0f,0.0f));
 
-      tmp_rot.rotZ(Math.PI/2);
-
-      p_stozka.mul(tmp_rot);
+     
+      
+      p_stozka.mul(tmp_rot2);
 
       TransformGroup transformacja_sto = new TransformGroup(p_stozka);
 
       transformacja_sto.addChild(stozek);
-      obrot_animacja.addChild(transformacja_sto);
+      obrot_animacja2.addChild(transformacja_sto);
             
             //==============================
-            
+       //p_ramie.set(new Vector3d(0.0f,0.0f,0.0f));
+              tmp_rot.rotZ(Math.PI/2);
+           p_ramie.mul(tmp_rot);
             
             return wezel_scena;
         }
