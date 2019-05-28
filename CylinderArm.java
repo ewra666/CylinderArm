@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package cylinderarm;
+import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.geometry.*;
 import javax.media.j3d.*;
 import javax.swing.*;
@@ -200,9 +201,13 @@ public void keyPressed(KeyEvent e)
            
            //=================================
            Appearance  wygladStozka = new Appearance();
-      wygladStozka.setColoringAttributes(new ColoringAttributes(0.2f,0.9f,0.2f,ColoringAttributes.NICEST));
-
-      Cylinder stozek = new Cylinder(0.1f,0.5f, wygladStozka);
+      // wygladStozka.setColoringAttributes(new ColoringAttributes(0.2f,0.9f,0.2f,ColoringAttributes.NICEST));
+       
+      Texture TeksturaStozek = new TextureLoader("obrazki/brick.gif",this).getTexture();
+      wygladStozka.setTexture(TeksturaStozek);
+		
+		
+      Cylinder stozek = new Cylinder(0.1f,0.5f, Cylinder.GENERATE_TEXTURE_COORDS, wygladStozka);
 
       Transform3D  p_stozka   = new Transform3D();
       p_stozka.set(new Vector3f(0.25f,0.3f,0.0f));
