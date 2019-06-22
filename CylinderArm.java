@@ -32,6 +32,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 //#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -41,6 +43,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
+import com.sun.j3d.utils.geometry.Box;
 
 
 /**
@@ -53,11 +56,17 @@ import javax.vecmath.Vector3d;
     private ColoringAttributes BLACK;
     private Matrix4d matrix = new Matrix4d();
     float x1 , x2 , y1 , y2 , z1 , z2;
-    int kat;
+    
+ 
+     private float kat=0.0f;
+        private float kx=0.0f;
+        private Matrix4d macierz = new Matrix4d();
+        private Matrix4d macierz2 = new Matrix4d();
     
   
         
         CylinderArm(){
+           
         super("Moje Nieudolne Cylindryczne Ramie");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -80,7 +89,7 @@ import javax.vecmath.Vector3d;
  }
         BranchGroup utworzScene(){
         BranchGroup wezel_scena = new BranchGroup();
-         
+         x1=0.1f;
         
         //==============================
         BoundingSphere Wiezy = new BoundingSphere();
@@ -112,49 +121,33 @@ import javax.vecmath.Vector3d;
         
             //=============================
         
-         /*Alpha alpha_animacja = new Alpha(1,0);
-         final Alpha alpha_animacja2 = new Alpha(1,10000);
-         final RotationInterpolator obracacz = new RotationInterpolator(alpha_animacja, obrot_animacja);
-         final BoundingSphere bounds = new BoundingSphere();
-               */
 
             //==============================
         
             Appearance  wygladChwytak = new Appearance();
             wygladChwytak.setColoringAttributes(new ColoringAttributes(80.0f,80.0f,80.0f,ColoringAttributes.NICEST));
-            Cylinder chwytak = new Cylinder(0.03f, 0.5f,Cylinder.GENERATE_TEXTURE_COORDS , WygladBrick);
+            Box chwytak = new Box(0.2f, 0.03f,0.03f,Box.GENERATE_TEXTURE_COORDS , WygladBrick);
             
-            Appearance  wygladWinda = new Appearance();
-            wygladWinda.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
-            Cylinder winda = new Cylinder(0.1f, 0.4f,Cylinder.GENERATE_TEXTURE_COORDS,WygladMur);
+            Appearance  wygladnaped = new Appearance();
+            wygladnaped.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
+            Box naped = new Box(0.13f, 0.1f,0.1f,Cylinder.GENERATE_TEXTURE_COORDS,wygladnaped);
            
           //==============================
          
             
            
-            x1=0;
-            x2=0;
-            y1=0;
-            y2=0;
-            z1=0;
-            z2=0;
-            
+         
             
             
             //==============================
             
             final Transform3D  p_chwytak   = new Transform3D();
-            //p_chwytak.set(new Vector3f(0.0f,0.0f,0.0f));
+            p_chwytak.set(new Vector3f(0.0f,0.0f,0.0f));
+            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));  
+            obrot_animacja.setTransform(p_chwytak);
+          
+            //==============================
             
-            final Transform3D  p_winda   = new Transform3D();
-           // p_winda.set(new Vector3f(0.0f,0.0f,0.0f));
-            
-            
-            final Transform3D  p_chwytak2   = new Transform3D();
-            //p_chwytak.set(new Vector3f(0.0f,0.0f,0.0f));
-            
-            final Transform3D  p_winda2   = new Transform3D();
-           // p_winda.set(new Vector3f(0.0f,0.0f,0.0f));
             
             final Transform3D  p_podstawa   = new Transform3D();
             p_podstawa.set(new Vector3f(0.0f,0.0f,0.0f));
@@ -163,8 +156,7 @@ import javax.vecmath.Vector3d;
             
             
             final Transform3D tmp_rot = new Transform3D();
-            final Transform3D tmp_rot2 = new Transform3D();
-            final Transform3D tmp_rot3 = new Transform3D();
+            
             //============================
               
             
@@ -194,7 +186,7 @@ public void keyPressed(KeyEvent e)
        {
            if(x1>-0.08f)
            {x1-=0.01f;
-            p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
             obrot_animacja.setTransform(p_chwytak);
            }
         }
@@ -202,7 +194,7 @@ public void keyPressed(KeyEvent e)
        {
            if(x1<0.4f)
            {x1+=0.01f;
-           p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+           p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
            obrot_animacja.setTransform(p_chwytak);
            }
         }
@@ -211,71 +203,57 @@ public void keyPressed(KeyEvent e)
        {
            if(y1<0.15f)
            {y1+=0.01f;
-            p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+            
+            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
             obrot_animacja.setTransform(p_chwytak);
            }
        }
-            if (key == 'w')
-       {
-           if(y2<0.15f)
-           {y2+=0.01f;
-            p_winda.setTranslation(new Vector3d(x2+0.4f,y2,z2));
-            obrot_animacja3.setTransform(p_winda);
-           }
-        }
+       
          if (key == 's')
          {
             if(y1>-0.15f)
             {y1-=0.01f;
-            p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
             obrot_animacja.setTransform(p_chwytak);
             }
             }
-         if (key == 's')
-         {
-              if(y2>-0.15f)
-              {
-            y2-=0.01f;
-            p_winda.setTranslation(new Vector3d(x2+0.4f,y2,z2));
-            obrot_animacja3.setTransform(p_winda);
-              }
-        }
+   
          if (key == 'q')
         {
-           
-            tmp_rot.rotY(-Math.PI/16);
-           
-            p_chwytak.mul(tmp_rot);
-            
-            //p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+            kat=(float) (Math.PI/32);
+        kx=(float) (kx+Math.PI/32);
+        tmp_rot.rotY(Math.PI/32);
+        
+        p_chwytak.get(macierz);         // obrot ramieniem chwytaka
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_chwytak.mul(tmp_rot);
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+      
             obrot_animacja.setTransform(p_chwytak);
         }
-           if (key == 'q')
-        {
-            tmp_rot3.rotY(-Math.PI/16);
-                    
-            p_winda.mul(tmp_rot3);
-            //p_winda.setTranslation(new Vector3d(x2+0.4f,y2,z2));
-            obrot_animacja3.setTransform(p_winda);
-        }
+        
          if (key == 'e')
         {            
-           
-            tmp_rot.rotY(Math.PI/16);
-         
-           
-            p_chwytak.mul(tmp_rot);
-           // p_chwytak.setTranslation(new Vector3d(x1+0.5f,y1,z1));
+              kat=(float) (-Math.PI/32);
+        kx=(float) (kx+Math.PI/32);
+        tmp_rot.rotY(-Math.PI/32);
+        
+        p_chwytak.get(macierz);         // obrot ramieniem chwytaka
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_chwytak.mul(tmp_rot);
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+      
             obrot_animacja.setTransform(p_chwytak);
-        }
-          if (key == 'e')
-        {
-            tmp_rot3.rotY(Math.PI/16);
-                    
-            p_winda.mul(tmp_rot3);
-           // p_winda.setTranslation(new Vector3d(x2+0.4f,y2,z2));
-            obrot_animacja3.setTransform(p_winda);         
-        }  
+        } 
+           
+         
+        
     }
      
             }
@@ -284,23 +262,16 @@ public void keyPressed(KeyEvent e)
             
             
             
-            p_chwytak.set(new Vector3d(x1+0.25f,y1,z1));
-            p_winda.set(new Vector3d(x2+0.2f,y2,z2));
-            
-            tmp_rot.rotZ(Math.PI/2);
-            tmp_rot3.rotZ(Math.PI/2);
-           
-            p_chwytak.mul(tmp_rot);
-            p_winda.mul(tmp_rot3);
-             
-            TransformGroup transformacja_winda = new TransformGroup(p_winda);
+          
             TransformGroup transformacja_chwytak = new TransformGroup(p_chwytak);
+           TransformGroup transformacja_naped = new TransformGroup(p_chwytak);
             
             transformacja_chwytak.addChild(chwytak);
-            transformacja_winda.addChild(winda);
-            
+            transformacja_naped.addChild(naped);
+          
             obrot_animacja.addChild(transformacja_chwytak);
-            obrot_animacja3.addChild(transformacja_winda);
+            obrot_animacja.addChild(transformacja_naped);
+            
              
            
            //=================================
@@ -309,7 +280,7 @@ public void keyPressed(KeyEvent e)
            Cylinder podstawa = new Cylinder(0.1f,0.5f, Cylinder.GENERATE_TEXTURE_COORDS,WygladTrawka);
 
            p_podstawa.set(new Vector3f(0.0f,0.0f,0.0f));
-           p_podstawa.mul(tmp_rot2);
+         
 
            TransformGroup transformacja_podstawa = new TransformGroup(p_podstawa);
 
@@ -318,9 +289,7 @@ public void keyPressed(KeyEvent e)
            obrot_animacja2.addChild(transformacja_podstawa);
             
             //==============================
-             tmp_rot.rotZ(Math.PI/2);
-           p_chwytak.mul(tmp_rot);
-           p_winda.mul(tmp_rot);
+          
        
           
             
