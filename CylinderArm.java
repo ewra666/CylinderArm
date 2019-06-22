@@ -142,9 +142,15 @@ import com.sun.j3d.utils.geometry.Box;
             //==============================
             
             final Transform3D  p_chwytak   = new Transform3D();
-            p_chwytak.set(new Vector3f(0.0f,0.0f,0.0f));
+            p_chwytak.set(new Vector3f(0.1f,0.0f,0.0f));
             p_chwytak.setTranslation(new Vector3d(x1,y1,z1));  
             obrot_animacja.setTransform(p_chwytak);
+          
+            //==============================
+           final Transform3D  p_naped   = new Transform3D();
+            p_naped.set(new Vector3f(0.0f,0.0f,0.0f));
+            p_naped.setTranslation(new Vector3d(x1,y1,z1));  
+            obrot_animacja2.setTransform(p_naped);
           
             //==============================
             
@@ -186,7 +192,11 @@ public void keyPressed(KeyEvent e)
        {
            if(x1>-0.08f)
            {x1-=0.01f;
-            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
+            p_chwytak.get(macierz);
+            macierz2.m03=x1;
+              p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+       
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
             obrot_animacja.setTransform(p_chwytak);
            }
         }
@@ -194,8 +204,12 @@ public void keyPressed(KeyEvent e)
        {
            if(x1<0.4f)
            {x1+=0.01f;
-           p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
-           obrot_animacja.setTransform(p_chwytak);
+           p_chwytak.get(macierz);
+            macierz2.m03=x1;
+              p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+       
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+            obrot_animacja.setTransform(p_chwytak);
            }
         }
        
@@ -203,9 +217,18 @@ public void keyPressed(KeyEvent e)
        {
            if(y1<0.15f)
            {y1+=0.01f;
-            
-            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
+            p_chwytak.get(macierz);
+            macierz2.m13=y1;
+            p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+            p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
             obrot_animacja.setTransform(p_chwytak);
+            
+            
+            p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+            p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+            obrot_animacja2.setTransform(p_naped);
+            
+            
            }
        }
        
@@ -213,10 +236,20 @@ public void keyPressed(KeyEvent e)
          {
             if(y1>-0.15f)
             {y1-=0.01f;
-            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));
+            p_chwytak.get(macierz);
+            macierz2.m13=y1;
+              p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+       
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
             obrot_animacja.setTransform(p_chwytak);
-            }
-            }
+            
+           
+            p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+            p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+            obrot_animacja2.setTransform(p_naped);
+            
+                   }
+         }
    
          if (key == 'q')
         {
@@ -231,8 +264,19 @@ public void keyPressed(KeyEvent e)
         p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
         p_chwytak.mul(tmp_rot);
         p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
-      
-            obrot_animacja.setTransform(p_chwytak);
+        obrot_animacja.setTransform(p_chwytak);
+        
+         p_naped.get(macierz);         // obrot ramieniem chwytaka
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_naped.mul(tmp_rot);
+        p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+        obrot_animacja2.setTransform(p_naped);
+        
+        
+        
         }
         
          if (key == 'e')
@@ -248,8 +292,17 @@ public void keyPressed(KeyEvent e)
         p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
         p_chwytak.mul(tmp_rot);
         p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
-      
-            obrot_animacja.setTransform(p_chwytak);
+        obrot_animacja.setTransform(p_chwytak);
+        
+        
+        p_naped.get(macierz);         // obrot ramieniem chwytaka
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_naped.mul(tmp_rot);
+        p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+        obrot_animacja2.setTransform(p_naped);
         } 
            
          
@@ -264,13 +317,13 @@ public void keyPressed(KeyEvent e)
             
           
             TransformGroup transformacja_chwytak = new TransformGroup(p_chwytak);
-           TransformGroup transformacja_naped = new TransformGroup(p_chwytak);
+           TransformGroup transformacja_naped = new TransformGroup(p_naped);
             
             transformacja_chwytak.addChild(chwytak);
-            transformacja_naped.addChild(naped);
+           transformacja_naped.addChild(naped);
           
             obrot_animacja.addChild(transformacja_chwytak);
-            obrot_animacja.addChild(transformacja_naped);
+          obrot_animacja2.addChild(transformacja_naped);
             
              
            
@@ -286,7 +339,7 @@ public void keyPressed(KeyEvent e)
 
            transformacja_podstawa.addChild(podstawa);
             
-           obrot_animacja2.addChild(transformacja_podstawa);
+           obrot_animacja3.addChild(transformacja_podstawa);
             
             //==============================
           
