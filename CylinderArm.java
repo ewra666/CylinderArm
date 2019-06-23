@@ -4,6 +4,14 @@
  * and open the template in the editor.
  */
 package cylinderarm;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.*;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
@@ -56,12 +64,44 @@ import com.sun.j3d.utils.geometry.Box;
     private ColoringAttributes BLACK;
     private Matrix4d matrix = new Matrix4d();
     float x1 , x2 , y1 , y2 , z1 , z2;
+    JButton right,left,top,bottom;
+    private JTextArea oknoTekstowe;
+      
+
+
+   
     
  
      private float kat=0.0f;
         private float kx=0.0f;
         private Matrix4d macierz = new Matrix4d();
         private Matrix4d macierz2 = new Matrix4d();
+        
+        
+         private class ObslugaPrzycisku implements ActionListener{
+
+       private JFrame ref_okno;
+
+       ObslugaPrzycisku(JFrame okno){
+            ref_okno = okno;
+       }
+
+       public void actionPerformed(ActionEvent e) {
+            JButton bt = (JButton)e.getSource();
+            if(bt==right)
+                JOptionPane.showMessageDialog(ref_okno, "Wciśnięto przycisk 1");
+           else if(bt==left)
+                JOptionPane.showMessageDialog(ref_okno, "Wciśnięto przycisk 1");
+             else if(bt==bottom)
+                JOptionPane.showMessageDialog(ref_okno, "Wciśnięto przycisk 1");
+            else if(bt==top)
+            {
+                 JOptionPane.showMessageDialog(ref_okno, oknoTekstowe.getText());
+            }
+           
+        }
+
+   }
     
   
         
@@ -70,10 +110,11 @@ import com.sun.j3d.utils.geometry.Box;
         super("Moje Nieudolne Cylindryczne Ramie");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        setLayout(new BorderLayout());
         GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
         Canvas3D canvas3D = new Canvas3D(config);
         canvas3D.setPreferredSize(new Dimension(800,600));
-        add(canvas3D);
+        add(canvas3D,BorderLayout.CENTER);
         pack();
         setVisible(true);
         BranchGroup scena = utworzScene();
@@ -86,12 +127,43 @@ import com.sun.j3d.utils.geometry.Box;
         orbit.setSchedulingBounds(new BoundingSphere());
         simpleU.getViewingPlatform().setViewPlatformBehavior(orbit);
         simpleU.addBranchGraph(scena);
+        
+        
+        
+       
  }
         BranchGroup utworzScene(){
         BranchGroup wezel_scena = new BranchGroup();
          x1=0.1f;
+         
+         right = new JButton("RIGHT");
+        left = new JButton("LEFT");
+        top = new JButton("TOP");
+        bottom = new JButton("BOTTOM");
+       
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        panel.add(right);
+        panel.add(left);
+        panel.add(top);
+        panel.add(bottom);
         
-        //==============================
+        add(panel,BorderLayout.SOUTH);
+        right.addActionListener(new ObslugaPrzycisku(this));
+        left.addActionListener(new ObslugaPrzycisku(this));
+        bottom.addActionListener(new ObslugaPrzycisku(this));
+        top.addActionListener(new ObslugaPrzycisku(this));
+        
+
+        oknoTekstowe = new JTextArea("Okno tekstowe\n");
+        add(new JScrollPane(oknoTekstowe),BorderLayout.NORTH);
+       
+        setVisible(true);
+        
+        
+        
+       
+         //==============================
         BoundingSphere Wiezy = new BoundingSphere();
         AmbientLight Swiatlo = new AmbientLight();
         Swiatlo.setInfluencingBounds(Wiezy);
@@ -142,13 +214,13 @@ import com.sun.j3d.utils.geometry.Box;
             //==============================
             
             final Transform3D  p_chwytak   = new Transform3D();
-            p_chwytak.set(new Vector3f(0.1f,0.0f,0.0f));
-            p_chwytak.setTranslation(new Vector3d(x1,y1,z1));  
+            //p_chwytak.set(new Vector3f(0.0f,0.0f,0.0f));
+           p_chwytak.setTranslation(new Vector3d(x1,y1,z1));  
             obrot_animacja.setTransform(p_chwytak);
           
             //==============================
            final Transform3D  p_naped   = new Transform3D();
-            p_naped.set(new Vector3f(0.0f,0.0f,0.0f));
+           // p_naped.set(new Vector3f(0.0f,0.0f,0.0f));
             p_naped.setTranslation(new Vector3d(x1,y1,z1));  
             obrot_animacja2.setTransform(p_naped);
           
