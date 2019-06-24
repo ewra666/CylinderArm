@@ -65,8 +65,8 @@ import com.sun.j3d.utils.geometry.Box;
     private TransformGroup obrot_animacja3 = new TransformGroup();
 
     private Matrix4d matrix = new Matrix4d();
-    private float x1 =0.1f;
-    private float   x2 , y1 , y2 , z1 , z2;
+    private float x1 =0.2f;
+    private float    y1=0.0f ;
     private JButton right,left,top,bottom;
     private JTextArea oknoTekstowe;
     
@@ -86,33 +86,29 @@ import com.sun.j3d.utils.geometry.Box;
         
         Appearance  wygladChwytak = new Appearance();
         wygladChwytak.setColoringAttributes(new ColoringAttributes(80.0f,80.0f,80.0f,ColoringAttributes.NICEST));
-        Box chwytak = new Box(0.2f, 0.03f,0.03f,Box.GENERATE_TEXTURE_COORDS|Box.GENERATE_NORMALS , wygladChwytak);
+        Box chwytak = new Box(0.3f, 0.05f,0.05f,Box.GENERATE_TEXTURE_COORDS|Box.GENERATE_NORMALS , wygladChwytak);
         obrot_animacja = new TransformGroup();
         obrot_animacja.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        p_chwytak.set(new Vector3d(x1,y1,z1));  
+        p_chwytak.set(new Vector3d(0.2f,0.0f,0.0f));  
         obrot_animacja.setTransform(p_chwytak);
-        TransformGroup transformacja_chwytak = new TransformGroup(p_chwytak);
-        transformacja_chwytak.addChild(chwytak);
-        obrot_animacja.addChild(transformacja_chwytak);
+        obrot_animacja.addChild(chwytak);
         wezel_scena.addChild(obrot_animacja); 
    
-        p_naped.setTranslation(new Vector3d(x1,y1,z1));  
-        obrot_animacja2.setTransform(p_naped);
-        obrot_animacja2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        wezel_scena.addChild(obrot_animacja2);
         Appearance  wygladnaped = new Appearance();
         wygladnaped.setColoringAttributes(new ColoringAttributes(0.0f,0.0f,0.9f,ColoringAttributes.NICEST));
-        Box naped = new Box(0.13f, 0.1f,0.1f,Cylinder.GENERATE_TEXTURE_COORDS|Box.GENERATE_NORMALS,wygladnaped);
-        TransformGroup transformacja_naped = new TransformGroup(p_naped);
-        transformacja_naped.addChild(naped);
-        obrot_animacja2.addChild(transformacja_naped);
+        Box naped = new Box(0.3f, 0.1f,0.1f,Cylinder.GENERATE_TEXTURE_COORDS|Box.GENERATE_NORMALS,wygladnaped);
+        p_naped.set(new Vector3d(0.1f,0.0f,0.0f));  
+        obrot_animacja2.setTransform(p_naped);
+        obrot_animacja2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        obrot_animacja2.addChild(naped);
+        wezel_scena.addChild(obrot_animacja2);
         
         p_podstawa.set(new Vector3f(0.0f,0.0f,0.0f));
         obrot_animacja3.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
         wezel_scena.addChild(obrot_animacja3); 
         Appearance  wygladPodstawa = new Appearance();
         wygladPodstawa.setColoringAttributes(new ColoringAttributes(0.2f,0.9f,0.6f,ColoringAttributes.NICEST));
-        Cylinder podstawa = new Cylinder(0.1f,0.5f, Cylinder.GENERATE_TEXTURE_COORDS,wygladPodstawa);
+        Cylinder podstawa = new Cylinder(0.1f,0.9f, Cylinder.GENERATE_TEXTURE_COORDS,wygladPodstawa);
         p_podstawa.set(new Vector3f(0.0f,0.0f,0.0f));
         TransformGroup transformacja_podstawa = new TransformGroup(p_podstawa);
         transformacja_podstawa.addChild(podstawa);
@@ -324,6 +320,7 @@ public void keyTyped(KeyEvent e)
         kx=(float) (kx+Math.PI/32);
         tmp_rot.rotY(Math.PI/32);
         
+        
         p_chwytak.get(macierz);         // obrot ramieniem chwytaka
         macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
         macierz2.m13=y1;
@@ -348,24 +345,26 @@ public void keyTyped(KeyEvent e)
         
          if (key == 'e')
         {            
-        kat=(float) (-Math.PI/32);
-        kx=(float) (kx+Math.PI/32);
-        tmp_rot.rotY(-Math.PI/32);
+        kat=(float) (Math.PI/32);
+        kx=(float) (kx-Math.PI/32);
+        tmp_rot.rotY(-kat);
         
         p_chwytak.get(macierz);         // obrot ramieniem chwytaka
-        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m03=macierz.m03*cos(-kat)+macierz.m23*sin(-kat);
         macierz2.m13=y1;
-        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        macierz2.m23=-macierz.m03*sin(-kat)+macierz.m23*cos(-kat);
         p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
         p_chwytak.mul(tmp_rot);
         p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
         obrot_animacja.setTransform(p_chwytak);
         
+  
+        
         
         p_naped.get(macierz);         // obrot ramieniem chwytaka
-        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m03=macierz.m03*cos(-kat)+macierz.m23*sin(-kat);
         macierz2.m13=y1;
-        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        macierz2.m23=-macierz.m03*sin(-kat)+macierz.m23*cos(-kat);
         p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
         p_naped.mul(tmp_rot);
         p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
