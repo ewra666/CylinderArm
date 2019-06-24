@@ -236,7 +236,7 @@ public void keyTyped(KeyEvent e)
         
         if (key == 'a')
        {
-           if(x1>-0.08f)
+           if(x1>0.11f)
            {x1-=0.01f;
             p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
             p_chwytak.get(macierz2);
@@ -251,7 +251,7 @@ public void keyTyped(KeyEvent e)
         }
         if (key == 'd')
        {
-           if(x1<0.4f)
+           if(x1<0.5f)
            {x1+=0.01f;
         p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
         p_chwytak.get(macierz2);
