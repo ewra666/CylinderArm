@@ -119,6 +119,20 @@ import com.sun.j3d.utils.geometry.Box;
         obrot_animacja3.addChild(transformacja_podstawa);
          
           
+//        Texture TeksturaZiemia = new TextureLoader("obrazki/trawka.jpg", this).getTexture();
+//        Appearance WygladZiemia = new Appearance();
+//        WygladZiemia.setTexture(TeksturaZiemia);
+//        
+//        
+//          TransformGroup weed = new TransformGroup(); 
+//          Transform3D przesuniecie_weed = new Transform3D(); 
+//          przesuniecie_weed.set(new Vector3f(0.0f,-0.05f,0.0f)); 
+//          weed.setTransform(przesuniecie_weed); 
+//          com.sun.j3d.utils.geometry.Box trawa= new com.sun.j3d.utils.geometry.Box(1f, 0.0001f, 1f,
+//                                                    com.sun.j3d.utils.geometry.Box.GENERATE_TEXTURE_COORDS, WygladZiemia ); 
+//          weed.addChild(trawa); 
+//          wezel_scena.addChild(weed); 
+//          
           
             
          //TEKSTURY==============================
