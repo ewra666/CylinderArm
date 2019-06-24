@@ -141,7 +141,7 @@ import com.sun.j3d.utils.geometry.Box;
          //==============================
      
             
-              right = new JButton("RIGHT");
+        right = new JButton("RIGHT");
         left = new JButton("LEFT");
         top = new JButton("TOP");
         bottom = new JButton("BOTTOM");
@@ -242,10 +242,14 @@ public void keyTyped(KeyEvent e)
        {
            if(x1>-0.08f)
            {x1-=0.01f;
-            p_chwytak.get(macierz);
-            macierz2.m03=x1;
             p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
-            p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+            p_chwytak.get(macierz2);
+            macierz2.m03=(x1)*cos(kx)+macierz2.m23*sin(kx);
+            macierz2.m13=y1;
+            macierz2.m23=(-x1*sin(kx))+macierz2.m23*cos(kx);
+            p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));  
+            p_chwytak.get(macierz);
+            p_chwytak.setTranslation(new Vector3d(macierz2.m03+macierz.m03,macierz2.m13+macierz.m13,macierz2.m23+macierz.m23));
             obrot_animacja.setTransform(p_chwytak);
            }
         }
@@ -253,11 +257,15 @@ public void keyTyped(KeyEvent e)
        {
            if(x1<0.4f)
            {x1+=0.01f;
-           p_chwytak.get(macierz2);
-           macierz2.m03=x1;
-           p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
-           p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
-           obrot_animacja.setTransform(p_chwytak);
+        p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_chwytak.get(macierz2);
+        macierz2.m03=(x1)*cos(kx)+macierz2.m23*sin(kx);
+        macierz2.m13=y1;
+        macierz2.m23=(-x1*sin(kx))+macierz2.m23*cos(kx);
+        p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));  
+        p_chwytak.get(macierz);
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03+macierz.m03,macierz2.m13+macierz.m13,macierz2.m23+macierz.m23));
+        obrot_animacja.setTransform(p_chwytak);
            }
         }
        
@@ -265,17 +273,23 @@ public void keyTyped(KeyEvent e)
        {
            if(y1<0.15f)
            {y1+=0.01f;
-            p_chwytak.get(macierz2);
-            macierz2.m13=y1;
-            p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
-            p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
-            obrot_animacja.setTransform(p_chwytak);
+           kat=0;
+        p_chwytak.get(macierz);
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+        obrot_animacja.setTransform(p_chwytak);
             
             
-            p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
-            p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
-            obrot_animacja2.setTransform(p_naped);
-            
+        p_naped.get(macierz);
+        macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+        macierz2.m13=y1;
+        macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+        p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
+        p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
+        obrot_animacja2.setTransform(p_naped);
             
            }
        }
@@ -284,17 +298,23 @@ public void keyTyped(KeyEvent e)
          {
             if(y1>-0.15f)
             {y1-=0.01f;
-            p_chwytak.get(macierz);
+            kat=0;
+             p_chwytak.get(macierz);
+            macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
             macierz2.m13=y1;
-            p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));      
+            macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
+            p_chwytak.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
             p_chwytak.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
             obrot_animacja.setTransform(p_chwytak);
-            
-           
+
+
+            p_naped.get(macierz);
+            macierz2.m03=macierz.m03*cos(kat)+macierz.m23*sin(kat);
+            macierz2.m13=y1;
+            macierz2.m23=-macierz.m03*sin(kat)+macierz.m23*cos(kat);
             p_naped.setTranslation(new Vector3d(0.0f,0.0f,0.0f));
             p_naped.setTranslation(new Vector3d(macierz2.m03,macierz2.m13,macierz2.m23));
             obrot_animacja2.setTransform(p_naped);
-            
                    }
          }
    
